@@ -9,7 +9,7 @@ var uglify = require('gulp-uglify');
 var gulpIf = require('gulp-if');
 var minify = require('gulp-minify-css');
 var imagemin = require('gulp-imagemin');
-var cache = requie('gulp-cache');
+var cache = require('gulp-cache');
 var del = require('del');
 var runSequence = require('run-sequence');
 
@@ -45,6 +45,10 @@ gulp.task('watch', function() {
 
 });
 
+gulp.task('html', function() {
+	browserSync.reload();
+});
+
 gulp.task('serve', ['browserSync', 'sass'], function() {
 	nodemon({
 		script: 'server/app.js',
@@ -58,7 +62,7 @@ gulp.task('serve', ['browserSync', 'sass'], function() {
 	});
 	gulp.watch('client/scss/**/*.scss', ['sass']);
 	gulp.watch('client/js/**/*.js', ['jshint']);
-	gulp.watch('client/**/*.html', browserSync.reload);
+	gulp.watch('client/**/*.html', ['html']);
 });
 
 

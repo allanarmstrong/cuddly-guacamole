@@ -1,5 +1,21 @@
-h1 {
-  color: ghostwhite;
-  font-size: 1em;
-  border: 10px solid black;
-  transition: all 500ms; }
+* {
+  margin: 0;
+  padding: 0; }
+
+.hero {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: monospace, sans-serif;
+  color: white;
+  text-shadow: 3px 0px 10px black;
+  background: url(https://images.unsplash.com/photo-1441155472722-d17942a2b76a?ixlib=rb-0.3.5&q=50&fm=jpg&s=4e2946860e61e8e385421290f523d00a);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%; }
+  .hero h1, .hero p {
+    position: relative;
+    top: 50%;
+    text-align: center; }
