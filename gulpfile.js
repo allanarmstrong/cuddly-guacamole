@@ -12,13 +12,19 @@ var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
 var del = require('del');
 var runSequence = require('run-sequence');
-
+var autoprefixer = require('gulp-autoprefixer');
 
 //The serve tasks. Only compile CSS and autoreload.
 gulp.task('sass', function() {
 	//console.log('Building CSS...');
 	return gulp.src('client/scss/**/*.scss')
-	.pipe(sass())
+	.pipe(sass({
+		includePaths: ['./client/bower_components']
+	}))
+	.pipe(autoprefixer({
+		browsers: ['last 2 versions'],
+		cascade: false
+	}))
 	.pipe(gulp.dest('client/css'))
 	.pipe(browserSync.stream());
 });
