@@ -15,5 +15,5 @@ routes(app);
 
 
 app.listen(config.port, function() {
-	console.log("Listening on port 3000");
+	console.log("Listening on port " + config.port);
 });

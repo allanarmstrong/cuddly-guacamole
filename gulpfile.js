@@ -71,6 +71,17 @@ gulp.task('serve', ['browserSync', 'sass'], function() {
 	gulp.watch('client/**/*.html', ['html']);
 });
 
+gulp.task('serve:dist', ['build'], function() {
+	nodemon({
+		script: 'dist/server/app.js',
+		env: {'NODE_ENV': 'production'}
+	}).on('config:update', function () {
+          // Delay before server listens on port 
+          setTimeout(function() {
+            require('open')('http://localhost:8080');
+          }, 1000);
+        });
+});
 
 //Build tasks now!
 //Concat the CSS and JS files into different files and put them and the HTML files into dist
@@ -82,17 +93,22 @@ gulp.task('useref', ['sass'], function() {
 	.pipe(gulpIf('*.css', minify()))
 	.pipe(assets.restore())
 	.pipe(useref())
-	.pipe(gulp.dest('dist'));
+	.pipe(gulp.dest('dist/public'));
 });
 
 
 gulp.task('imagemin', function() {
 	return gulp.src('client/images/**/*.+(gif|png|jpeg|jpg|svg)')
 	.pipe(cache(imagemin({interlaced: true})))
-	.pipe(gulp.dest('dist/images'));
+	.pipe(gulp.dest('dist/public/images'));
 });
 
-gulp.task('clean', function(callbacl) {
+gulp.task('server', function() {
+	return gulp.src('server/**/*')
+	.pipe(gulp.dest('dist/server'));
+});
+
+gulp.task('clean', function(callback) {
 	del('dist');
 	cache.clearAll(callback);
 });
@@ -102,5 +118,5 @@ gulp.task('clean:dist', function(callback) {
 });
 
 gulp.task('build', function() {
-	runSequence('clean','build-css','useref', 'imagemin');
+	runSequence('clean',['useref', 'imagemin'], 'server');
 });
